@@ -26,7 +26,8 @@
 #    @license: BSD-3
 
 ## Libraries and global options
-%matplotlib qt
+%matplotlib inline
+#%matplotlib qt
 %qtconsole --colors=linux 
 from __future__ import division, print_function
 import os
@@ -214,8 +215,9 @@ plt.show
 
 # <codecell>
 
-## Make a selection 
-km = MiniBatchKMeans(n_clusters=i,init='k-means++',n_init=15,random_state=0
+## Run using fixed chosen cluster count
+clust = 15
+km = MiniBatchKMeans(n_clusters=clust,init='k-means++',n_init=10,random_state=0
                          ,init_size=1000,batch_size=1000,verbose=False)
 km.fit(Z)
 
@@ -230,7 +232,7 @@ A.groupby("label1")[0].count()
 fig = plt.figure(1, figsize=(10, 10))
 ax = Axes3D(fig, rect=[0, 0, .95, 1], elev=48, azim=134)
 labels = A["label1"]
-rndpts = np.sort(np.random.choice(A.shape[0], min(5000,A.shape[0]), replace=False))
+rndpts = np.sort(np.random.choice(A.shape[0], min(1000,A.shape[0]), replace=False))
 
 ax.scatter(A.iloc[rndpts,0],A.iloc[rndpts,1],A.iloc[rndpts,2]
         ,c=A.iloc[rndpts].label1_color
@@ -239,7 +241,7 @@ ax.scatter(A.iloc[rndpts,0],A.iloc[rndpts,1],A.iloc[rndpts,2]
 # plot centroids
 cntrs = km.cluster_centers_[:,0:3]
 ax.scatter(cntrs[:,0],cntrs[:,1],cntrs[:,2]
-        ,c=np.array((range(1,26)))/25
+        ,c=np.arange(1,clust+1,1)/(clust+1)
         ,cmap="jet",alpha=1,marker='D',s=100, linewidths=1.5)
 
 ax.set_xlabel('SVD 1st')
