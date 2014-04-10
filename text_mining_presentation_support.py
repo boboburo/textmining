@@ -129,6 +129,7 @@ raw = pd.read_csv('data/dummy_data_nama_july2011.csv')
 raw.rename(columns=lambda x: '_'.join(x.lower().split()), inplace=True)  # colnames: remove spaces and lower
 raw.rename(columns=lambda x: x.translate(string.maketrans("",""), string.punctuation), inplace=True)  # colnames: remove punct
 
+print(raw.shape)
 rstr(raw)
 
 # <codecell>
@@ -164,6 +165,7 @@ vectorizer = TfidfVectorizer(max_df=0.95, max_features=20000,ngram_range=(1,2)
                             ,use_idf=True,smooth_idf=True)
 X = vectorizer.fit_transform(df["token_clean"])
 vectorizer.get_feature_names()
+X.shape
 
 # <markdowncell>
 
@@ -255,7 +257,6 @@ plt.show()
 
 # <codecell>
 
-del df['human_suggested_id']
 df['label'] = km.labels_
 df.insert(0, 'human_suggested_id', "")
 
